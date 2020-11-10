@@ -1,4 +1,4 @@
 ﻿namespace TheFountainOfObjects
 {
-    public enum RoomType { Empty, OffMap, Entrance, Fountain }
+    public enum RoomType { Empty, OffMap, Entrance, Fountain, Pit }
 }

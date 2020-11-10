@@ -15,7 +15,7 @@ namespace TheFountainOfObjects
         {
             Player = player;
             Map = map;
-            _sensors = new ISense[] { new CurrentRoomSense(), new EntranceLightSense(), new FountainSense() };
+            _sensors = new ISense[] { new CurrentRoomSense(), new EntranceLightSense(), new FountainSense(), new PitSense() };
         }
 
         public void Run()
@@ -43,9 +43,11 @@ namespace TheFountainOfObjects
 
             Console.WriteLine("You enter the Cavern of Objects, a maze of rooms filled with dangerous pits in search");
             Console.WriteLine("    of the Fountain of Objects.");
-            Console.WriteLine("Light is visible only in hte entrance, and no other light is seen anywhere in the caverns.");
+            Console.WriteLine("Light is visible only in the entrance, and no other light is seen anywhere in the caverns.");
             Console.WriteLine("You must navigate the Caverns with your other senses.");
             Console.WriteLine("Find the Fountain of Objects, activate it, and return to the entrance.");
+            Console.WriteLine("Look out for pits. You will feel a breeze if a pit is in an adjacent room. If you enter a");
+            Console.WriteLine("    room with a pit, you will die.");
         }
 
         private void DisplayEnding()
@@ -54,6 +56,11 @@ namespace TheFountainOfObjects
             {
                 ConsoleHelper.WriteLine("The Fountain of Objects has been reactivated and you have escaped with your life!", ConsoleColor.Magenta);
                 ConsoleHelper.WriteLine("You win!", ConsoleColor.Magenta);
+            }
+            else
+            {
+                ConsoleHelper.WriteLine("You have died in the Cavern of Objects.", ConsoleColor.Magenta);
+                ConsoleHelper.WriteLine("You lose.", ConsoleColor.Magenta);
             }
         }
 
@@ -64,6 +71,6 @@ namespace TheFountainOfObjects
         }
 
         public bool HasWon => PlayerRoom == RoomType.Entrance && IsFountainOn;
-        public bool HasLost => false;
+        public bool HasLost => PlayerRoom == RoomType.Pit;
     }
 }
