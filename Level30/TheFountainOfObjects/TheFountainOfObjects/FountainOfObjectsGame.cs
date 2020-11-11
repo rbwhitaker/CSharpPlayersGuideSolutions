@@ -4,6 +4,7 @@ namespace TheFountainOfObjects
 {
     public class FountainOfObjectsGame
     {
+        public Maelstrom[] Maelstroms { get; }
         public Player Player { get; }
         public RoomType PlayerRoom => Map.GetRoomTypeAt(Player.Row, Player.Column);
         public Map Map { get; }
@@ -11,11 +12,13 @@ namespace TheFountainOfObjects
 
         private readonly ISense[] _sensors;
 
-        public FountainOfObjectsGame(Player player, Map map)
+        public FountainOfObjectsGame(Player player, Map map, Maelstrom[] maelstroms)
         {
             Player = player;
             Map = map;
-            _sensors = new ISense[] { new CurrentRoomSense(), new EntranceLightSense(), new FountainSense(), new PitSense() };
+            Maelstroms = maelstroms;
+
+            _sensors = new ISense[] { new CurrentRoomSense(), new EntranceLightSense(), new FountainSense(), new PitSense(), new MaelstromSense() };
         }
 
         public void Run()
@@ -29,6 +32,9 @@ namespace TheFountainOfObjects
 
                 ICommand command = Player.GetCommand();
                 command.Execute(this);
+
+                foreach (Maelstrom maelstrom in Maelstroms)
+                    maelstrom.Activate(this);
 
                 if (HasWon || HasLost)
                     break;

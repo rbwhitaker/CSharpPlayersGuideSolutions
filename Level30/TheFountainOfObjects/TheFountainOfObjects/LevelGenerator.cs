@@ -32,7 +32,12 @@ namespace TheFountainOfObjects
             player.Row = 0;
             player.Column = 0;
 
-            return new FountainOfObjectsGame(player, map);
+            Maelstrom[] maelstroms = new Maelstrom[]
+            { 
+                new Maelstrom { Row = 3, Column = 0 }
+            };
+
+            return new FountainOfObjectsGame(player, map, maelstroms);
         }
 
         public static FountainOfObjectsGame CreateMediumGame()
@@ -42,13 +47,17 @@ namespace TheFountainOfObjects
             map.SetRoomTypeAt(3, 0, RoomType.Pit);
             map.SetRoomTypeAt(0, 2, RoomType.Pit);
 
-
             map.SetRoomTypeAt(0, 5, RoomType.Entrance);
             Player player = new Player();
             player.Row = 0;
             player.Column = 5;
 
-            return new FountainOfObjectsGame(player, map);
+            Maelstrom[] maelstroms = new Maelstrom[]
+            {
+                new Maelstrom { Row = 2, Column = 2 }
+            };
+
+            return new FountainOfObjectsGame(player, map, maelstroms);
         }
 
         public static FountainOfObjectsGame CreateLargeGame()
@@ -65,7 +74,13 @@ namespace TheFountainOfObjects
             player.Row = 3;
             player.Column = 7;
 
-            return new FountainOfObjectsGame(player, map);
+            Maelstrom[] maelstroms = new Maelstrom[]
+            {
+                new Maelstrom { Row = 1, Column = 3 },
+                new Maelstrom { Row = 5, Column = 5 }
+            };
+
+            return new FountainOfObjectsGame(player, map, maelstroms);
         }
     }
 }
