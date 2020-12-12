@@ -6,11 +6,11 @@
         {
             if (password.Length < 6) return false;
             if (password.Length > 13) return false;
-            if (HasUppercase(password)) return false;
-            if (HasLowercase(password)) return false;
-            if (HasDigits(password)) return false;
-            if (Contains(password, 'T')) return false;
-            if (Contains(password, '&')) return false;
+            if (!HasUppercase(password)) return false;
+            if (!HasLowercase(password)) return false;
+            if (!HasDigits(password)) return false;
+            if (!Contains(password, 'T')) return false;
+            if (!Contains(password, '&')) return false;
 
             return true;
         }
