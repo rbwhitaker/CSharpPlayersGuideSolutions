@@ -5,14 +5,12 @@ int cityHealth = 15;
 int manticoreHealth = 10;
 int round = 1;
 
-// Get the starting distance for the Manticore.
-int range = AskForNumberInRange("Player 1, how far away from the city do you want to station the Manticore?", 0, 100);
-Console.Clear();
-
-Console.WriteLine("Player 2, it is your turn.");
+// Randomly choose the starting distance for the Manticore.
+Random random = new Random();
+int range = random.Next(100);
 
 // Run the game until the city is destroyed or the Manticore is destroyed.
-while(cityHealth > 0 && manticoreHealth > 0)
+while (cityHealth > 0 && manticoreHealth > 0)
 {
     // Display the status for the round.
     Console.ForegroundColor = ConsoleColor.White;
@@ -33,10 +31,10 @@ while(cityHealth > 0 && manticoreHealth > 0)
     DisplayOverOrUnder(targetRange, range);
 
     // Deal damage to the Manticore if it was a hit.
-    if(targetRange == range) manticoreHealth -= damage;
+    if (targetRange == range) manticoreHealth -= damage;
 
     // Deal damage to the city if the Manticore is still alive.
-    if(manticoreHealth > 0) cityHealth--;
+    if (manticoreHealth > 0) cityHealth--;
 
     // Go on to the next round.
     round++;
@@ -66,9 +64,9 @@ void DisplayWinOrLose(bool won)
 // Tells the player if they fell short, overshot, or hit their target.
 void DisplayOverOrUnder(int targetRange, int range)
 {
-    if (targetRange < range)      Console.WriteLine("That round FELL SHORT of the target.");
+    if (targetRange < range) Console.WriteLine("That round FELL SHORT of the target.");
     else if (targetRange > range) Console.WriteLine("That round OVERSHOT the target.");
-    else                          Console.WriteLine("That round was a DIRECT HIT!");
+    else Console.WriteLine("That round was a DIRECT HIT!");
 }
 
 // Displays the status of the game, including the round number, and health of city and Manticore.
