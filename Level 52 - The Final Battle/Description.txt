@@ -1,0 +1,504 @@
+An alternative final battle.
+
+The current final battle is feeling not very exciting to me after working on it for a while (though I've had this in my mind for a while, and I might be biased) and it feels a bit too similar to the Fountain of Objects. I do like the combat aspects, but feel like it might be better to focus solely on that instead of the map navigation aspects. That would be a very different kind of final challenge, but could allow you to focus on the effects, inventory, 
+
+
+
+The game is played as a sequence of battles. If the player survives all battles, they win the game.
+Each battle consists of an ordered set of `Heroes` vs. an ordered set of `Monsters`.
+The player controls the heroes, while the game controls the monsters (simple AI).
+The `Player Character` (PC) is one of the heroes.
+The rest of the heroes are `Companions`.
+
+# Primary Challenges
+
+## Building Character
+
+Each battle has participants called CHARACTERS. These come in two forms: MONSTERS and HEROES. A HERO is one of the
+good guys. A MONSTER is one of the bad guys. HEROES come in two flavors: The PLAYER_CHARACTER represents the actual
+player. A COMPANION represents another HERO. We will deal with COMPANIONS later.
+
+All CHARACTERS have a NAME that the display will use to refer to it.
+
+Pick a generic name for the PLAYER_CHARACTER (we will fix that later) such as "PLAYER" to use for its NAME.
+
+The full game is made up of a sequence of BATTLES, played one after the next (as long as the PLAYER keeps winning).
+For now, we will only have a single BATTLE.
+
+Each BATTLE is formed out of a series of ROUNDS. In each ROUND, each CHARACTER gets a TURN--a chance to pick from
+one of its available ACTIONS to perform, which then executes, updating the state of the game.
+
+The DO_NOTHING_ACTION is an ACTION that literally does nothing. When it executes, it should simply say something like,
+"[CHARACTER_NAME] did NOTHING." We must define this ACTION type, but for now, we will assume that all CHARACTERS have
+the DO_NOTHING_ACTION as an allowed choice.
+
+Each CHARACTER has an ACTION_PICKER, which is responsible for picking a specific action to do on a given turn.
+You can think of this as the brain of the CHARACTER. It decides which of the available actions should be picked
+in the given situation. You can build an ACTION_PICKER that is specific to a single type of CHARACTER, or you can
+build an ACTION_PICKER that is general-purpose. We'll do that second option for now.
+
+Build a DO_NOTHING_ACTION_PICKER: an ACTION_PICKER that always picks the DO_NOTHING_ACTION. This is not very practical,
+but it does allow us to build the basic infrastructure of the game without having to build a lot of other complex
+logic. When it is time for the DO_NOTHING_ACTION_PICKER to pick an action, display the text "[CHARACTER] is taking a
+turn..." Then use `System.Threading.Thread.Sleep(500);` to wait for a moment before returning the DO_NOTHING_ACTION.
+
+Set up a BATTLE with the following:
+1. The first team consists of a PLAYER_CHARACTER.
+2. The second team consists of a single SKELETON.
+3. The PLAYER_CHARACTER has a DO_NOTHING_ACTION_PICKER controlling it.
+4 .The SKELETON has a DO_NOTHING_ACTION_PICKER controlling it.
+
+Ensure the game can run. This should be enough to get a game that looks like this:
+
+```
+PLAYER is taking a turn...
+PLAYER did NOTHING.
+SKELETON is taking a turn...
+SKELETON did NOTHING.
+PLAYER is taking a turn...
+PLAYER did NOTHING.
+...
+```
+
+## Basic Actions and Attacks
+
+It is time to give our CHARACTERS real ACTIONS and real ATTACKS. In the process, we'll also ensure that 
+ACTION_PICKERS only draw from ACTIONS a CHARACTER supports.
+
+All CHARACTERS have a set of ACTIONS that they can perform. The DO NOTHING action is but one of many,
+and when an ACTION PICKER chooses an action for a CHARACTER, it should only be using one the character supports.
+
+Both the Player Character and the Skeleton should include the Do Nothing action as a choice.
+
+All CHARACTERS have a set of ATTACKS that they can perform. Each attack has a NAME that the game uses to
+refer to it.
+
+The full set of attacks is formed from multiple subsets of actions. We will look at others later, but right now,
+the only subset we need to worry about is INNATE ATTACKS.  An innate attack is one that is a built-in part 
+of the character, contrasted with attacks that come from items or effects (topics for later).
+
+The Player Character has an innate attack of PUNCH. The Skeleton has an innate attack of BONE CRUNCH.
+
+In addition to the Do Nothing Action, define a second action type called the ATTACK ACTION.
+The attack action knows who the attacker is, who the target is, and which attack is being used.
+When this action executes, it should (for now) simply display the text "[ATTACKER_NAME] used [ATTACK_NAME] and
+dealt damage to [TARGET_NAME]."
+
+Both the Player Character and the Skeleton should have both the Do Nothing action and the Attack action
+in this list of possible choices.
+
+The Do Nothing Action Picker can be removed/replaced.
+
+Create a new DEFAULT ATTACK ACTION PICKER, which is a new action picker that always returns an Attack Action
+that uses the controlled character as the attacker, the first (only) character on the opposing team as the target,
+and the first attack in the character's list of attacks.
+
+Change the game's setup to have both the Player Character and Skeleton use this new Default Attack Action Picker
+instead of the Do Nothing Action Picker.
+
+At this point, you should have enough of the game where it can run with the following output:
+
+```
+PLAYER is taking a turn...
+PLAYER used PUNCH and dealt damage to SKELETON.
+SKELETON is taking a turn...
+SKELETON used BONE CRUNCH and dealt damage to PLAYER.
+PLAYER is taking a turn...
+PLAYER used PUNCH and dealt damage to SKELETON.
+...
+```
+
+## Damage and Health Points
+
+Now that characters can perform legitimate attacks, it is time to let those attacks do real damage.
+We won't worry about eliminating incapacitated monsters or heroes from the game just yet.
+
+Every character has a number of Health Points (HP), as well as a Maximum Health Points (Max HP) that indicate
+their health status. (When a character's HP reaches 0, there will be consequences. But we will not deal with
+those consequences in this stage.)
+
+An attack can be initiated, which should produce DAMAGE_DATA in the form of a damage amount and a damage type.
+For now, the damage type will always be NORMAL, but soon, we will extend that to other types.
+
+The PUNCH attack should deal 1 point of normal damage. The BONE CRUNCH attack should also deal 1 point of
+normal damage.
+
+The Player Character should start with 25 HP. The Skeleton should start with 5 HP.
+
+When the Attack Action runs, it should get the damage data from the attack it is using and subtract the damage
+amount from the target's HP. Character's HP should stop decreasing at 0. If it would drop below zero, change
+it to be zero instead.
+
+Update the text used when an attack action runs to this: "[ATTACKER_NAME] used [ATTACK_NAME] and dealt
+[DAMAGE_AMOUNT] [DAMAGE TYPE] damage to [TARGET_NAME]."
+
+After an attack completes, also have the Attack Action also temporarily display the following:
+"[TARGET NAME] is now at [HP]/[MAX HP] HP."
+
+```
+PLAYER is taking a turn...
+PLAYER used PUNCH and dealt 1 NORMAL damage to SKELETON.
+SKELETON is now at 4/5 HP.
+SKELETON is taking a turn...
+SKELETON used BONE CRUNCH and dealt 1 NORMAL damage to PLAYER.
+PLAYER is now at 24/25 HP.
+PLAYER is taking a turn...
+PLAYER used PUNCH and dealt 1 NORMAL damage to SKELETON.
+SKELETON is now at 3/5 HP.
+...
+```
+
+## Life and Death
+
+The next step is to allow things whose HP has reached 0 to be removed from the game, and to allow the game to end
+in a win or a loss for the player.
+
+Characters should be able to report if they are alive or not. They are alive if their HP is above 0.
+
+After an attack deals damage, check to see if any character is now dead. If they are, display a message like,
+"[TARGET NAME] was defeated!"
+
+Modify the Default Attack Action Picker to target the first character in the enemy team, but to pick a 
+Do Nothing action instead of an Attack Action if the enemy team has no characters left.
+
+Allow teams to indicate if they have been defeated--all characters have died an been removed.
+
+End the game when either the hero team or the monster team reports they have been defeated.
+
+## Sequence of Battles
+
+The next thing on our list is to allow the player to advance through a series of battles, one at a time, until
+reaching the end.
+
+Define three teams of monsters, one for each of three battle rounds. In the first round, the monster team
+is composed of one skeleton. In the second round, the monster team is composed of two skeletons. In the third
+round, the monster team is composed of three skeletons.
+
+The game should generate new battles until either the hero team has been defeated or until all monster teams
+have been defeated.
+
+Previous text displayed that indicates who won should be moved to after the final outcome
+of the series of battles is complete, rather than just after a single battle.
+
+## Better Status Display
+
+The next step is to ensure that the player has a solid understanding of the current situation in a battle by
+displaying the high-level status of the battle before each character's turn.
+
+Build a component (a class, etc.) that can display the current status of the battle by request. This must
+include at least the following information: the battle number, the name, current HP, and max HP of each
+character, and some sort of indication of which character's turn is next, for example, by displaying it
+in a different color or with a symbol next to the character. The following is a possible example, but
+you can do whatever you want, as long as the criteria above are met. (You cannot see that the selected
+character is displayed in yellow instead of gray.)
+
+===================== BATTLE #1 =======================
+PLAYER           ( 23/25 )
+------------------------ VS ---------------------------
+                                     SKELETON (  4/5  )
+                                     SKELETON (  5/5  )
+                                     SKELETON (  5/5  )
+=======================================================
+
+Display the battle's status before each character's turn.
+
+## Items and Inventory
+
+Each team--both hero and monster--has a shared inventory of items that they can use. There are no limits to
+what could be expected of an item, but for now, we will start with a simple Health Potion that restores
+10 HP when used.
+
+Define a new type that represents an inventory item. Each item should have a name and the ability to use it
+(a method, for example). When used, items are used by some Character and used on some Character, though in
+the case of a potion, it would typically be used on the Character itself.
+
+The act of using some items may cause them to be consumed (as is the case with
+a Health Potion) and so when used, the item should be able to report (a return value, for example) whether
+the item was consumed and should be removed from the inventory or not.
+
+If an item is consumed in the process of using it, it should be removed from the team's inventory.
+
+Create a potion whose usage causes it to increase the HP of a Character by 10. This should not allow the
+character's HP to go above its Max HP.
+
+Create a new Action type that is a Use Item Action. A Use Item Action should know which Character is the
+user, which Item is being used, and which Character it is being used on (the target). When the Use Item
+Action is executed, it should cause the item to be used on the target, and then remove the item from
+inventory if it was consumed.
+
+## The Uncoded One
+
+It is time to add the final boss: The Uncoded One. We're going to take some shortcuts to keep this simple,
+but some of the expansion challenges flesh out the Uncoded One to be more thematic and flavorful.
+
+The Uncoded One is a second monster type. It has 30 HP. It has a DECONSTRUCT attack that deals a random amount of
+Normal damage between 1 and 3.
+
+Give the Hero party a total of 10 Health Potions.
+
+Add a fourth level with two Skeletons and a fifth level with the Uncoded One.
+
+This creates a longer game. You may consider reducing the delay time when thinking about a decision or
+removing it altogether.
+
+## The Player Decides Our Fate
+
+We've had our game running with the computer making all decisions for both teams. It is time to change that.
+The human player should be making decisions about what actions to use in the game. How you approach this is,
+as always, up to you, but it must be able to do the following:
+
+The player can choose to do nothing. This causes the character to skip their turn using the Do Nothing action
+we created first.
+
+The player can choose to perform an attack. Characters may support multiple attacks, and the player should be
+allowed to choose the specific attack that they want to use. (Though right now, no characters actually have
+more than one attack.) In the future, you may want to allow the player to choose which enemy character to
+attack, but for now, it is sufficient to automatically pick the first one.
+
+The player can choose to use an item, if they have any in the party's shared inventory. In the future, you
+may want to allow the player to pick who to use the item on, but for now, it is sufficient to automatically
+target the current player.
+
+This can be done by making a new Action Picker that uses the console window to display choices to the player
+and allow them to pick.
+
+Before launching the game, allow the human to decide if they want to play the following:
+
+1. Human vs. Computer
+2. Computer vs. Computer (what the game has been doing so far)
+3. Human vs. Human
+
+Put a console action picker in charge of any human controlled teams and the default attack action picker in
+charge of any computer controlled teams. This allows the human to play the computer (the default), but also
+for the human to watch the computer play itself, and for two humans to play the game together. (Though
+as things stand at the end of this challenge, the monsters have little meaningful choices besides use their
+one attack.)
+
+-------------------------------------------------------------------------------------------------
+
+## Equipping Gear
+
+Each Character can equip a single Inventory Item. When an Inventory Item is equipped, it is removed from
+the shared party inventory. Other party members can no longer use it.
+
+Some items bestow additional attacks when equipped. Action Pickers should be able to see these extra attacks
+and use them. The Default Action Picker should prefer this attack over any innate attacks. (We will
+usually make them a little stronger.) The Console Action Picker should include this action as a choice.
+
+Create a SWORD inventory item, and make the Player Character have it equipped by default. The Sword
+item has another attack available called SLASH that deals 2 damage.
+
+Create an Equip Item Action that allows characters to take an item currently in the inventory and equip it.
+This should swap it for any item already equipped.
+
+When a character dies, place anything it has equipped into the other team's shared inventory.
+
+## Stolen Equipment
+
+Requires doing Equipping Gear
+
+Some attacks can have a side effect that happens once the attack is completed. These side effects should
+be able to take into consideration (perhaps as parameters to a `PerformSideEffect` method) the entire
+battle, the attacker, the target, to make their decision about how (and if) to perform the side effect.
+
+There are many side effects you could create, but for this challenge, we will add only one, and to a new
+attack type for a new monster type.
+
+A Shadow Octopoid has 7 HP and has an attack called GRAPPLE. GRAPPLE deals 0 to 1 damage randomly. However,
+it has a side effect. The side effect is that there is a 10% chance that if the target has an equipped
+item, it will be dropped. When dropped, there is a 50% chance that this ends up back in the target's team's
+inventory, where they can simply re-equip it. But if the attacker does not have an item equipped, there
+is also a 50% chance that the attacker recovers the item instead, which causes it to equip the item, stealing
+it.
+
+When GRAPPLE causes a target to unequip an item, a message like "GRAPPLE has caused [TARGET] to drop [ITEM]!".
+If it ends up back in the team's inventory, then there should be a follow-on message that says something like,
+"(Re-equip it to use it again.)" If it results in a steal, show a message like, "[ATTACKER] has retrieved [ITEM]!"
+
+## Dropped Loot
+
+When a party is eliminated, the opposing party should gain all their inventory items. This can be a convenient
+way to allow the heroes to acquire loot as they progress through the battles. Reduce the number of Health
+Potions initially assigned to the Heroes and place them in the Monster party inventories in the different battles.
+(Remember that any items collected after the final battle will never get a chance to be used.)
+
+When a party is defeated, transfer all items in that party's inventory to the opposing team. Display a message
+along the lines of, "[PARTY NAME] have been defeated. Their inventory has been looted by the [OTHER PARTY NAME]."
+Then for each item, "Acquired [ITEM NAME]." (The party names can be simply "MONSTERS" and
+"HEROES" in all cases.)
+
+Placing potions in the monster party inventories will cause them to use them when their health drops low.
+Made some sort of change (of your choice) to ensure that potions do not all get consumed by monsters. This could
+be as simple as adding a property for the Default Attack Action Chooser to determine if potions should be
+consumed at all (and turn it off for instances that are controlling monsters but turn it on for ones controlling
+heroes) or it could be something like making the threshold under which the action chooser should consider using a
+potion be configurable, and then a probability for choosing a potion, so it doesn't do it every time. For example,
+if something only chooses a potion when they are below 50% health and then only do it 10% of the time, it
+will allow monsters to occasionally drink a potion (and that might be enough to keep more powerful monsters alive
+until the potions run out, while weaker ones will occasionally restore health but the player can still usually
+eliminate them before they get clever enough to drink a healing potion).
+
+## Vin Fletcher
+
+Vin arrives follows you to the domain of the Uncoded One, prepared to join you. You will have his bow.
+
+Vin is skilled with the bow, but his attack is not guaranteed to hit every time, and our system will need to
+account for that.
+
+Attack Data information should be modified to include a probability of hitting the target. All attacks made before
+have a 100% chance of hitting the target. Modify the game to randomly determine if an attack hits.
+
+Create a new Hero called "VIN FLETCHER", your old friend who you worked with to craft arrows. Vin should have 15 HP.
+
+If you did Equipping Gear, Give Vin a VIN'S BOW item, which has an item-supplied attack called QUICKSHOT that deals
+3 damage, but with only a 50% chance of hitting the target. Also give Vin Fletcher an innate PUNCH attack that is
+the same as what the Player Character has.
+
+If you did not do Equipping Gear, give Vin a single innate QUICKSHOT attack that deals 3 damage with only 50% chance
+of hitting the target.
+
+## Mylara and Skorin
+
+Mylara and Skorin follow you to the domain of the Uncoded One, prepared to join you. They work together as a
+single character (shared HP, turn, attacks, etc.) and bring their cannon.
+
+Create a new Hero called "MYLARA and SKORIN", your friends from Consolas City. They should have 20 HP together.
+
+If you did Equipping Gear, give them a CANNON OF CONSOLAS item, which has an item-supplied attack called CANNON FODDER
+that deals damage in a specific sequence. With this attack, keep track of how many times it has been used. If it is
+a multiple of 3 and 5, this attack deals 5 damage. If it is a multiple of 3 _or_ 5, this attack deals 2 damage.
+Otherwise, it deals 1 damage. If you did Equipping Gear, also give them the PUNCH attack.
+
+If you did the Vin Fletcher challenge, give this attack a 75% chance of hitting its target.
+
+If you did not do Equipping Gear, give them a single innate CANNON FODDER attack that deals the same damage as
+described above.
+
+Add Mylara and Skorin to the hero party.
+
+## Attack Modifiers
+
+Before an attack's damage is applied to its target, the game should search for Attack Modifiers that adjust the damage.
+These take Attack Damage as an input and produce a new Attack Damage as output, possibly adjusting or changing
+its parts. For example, we will make a Stone Armor modifier that reduces damage by 1.
+
+Attack Modifiers could theoretically come from a number of sources, similar to attacks. There are innate damage modifiers
+that are a built-in part of the character, but you could theoretically also have attack modifiers that come from equipped
+items, effects, or other sources. (The only one required to complete this challenge is innate modifiers.)
+
+A character's modifiers can be applicable either when they are the attacker or when they are the defender. Stone Armor,
+for example, is a defender modifier.
+
+Define an attack modifier with the ability to transform an attack's damage data, given the context of the battle, the
+attacker, the target, and the input damage, and produce a (possibly changed) attack damage.
+
+Give each character the ability to have two lists of attack modifiers--one for when they are the attacker and one for
+when they are the defender.
+
+Modify the game so that when an attack is being performed, the game looks at all of the attacker's attacker modifiers and
+applies them in turn. Then look at all of the defender's defender modifiers and apply them in turn.
+modifiers and apply them in order. Deal out the damage done after all modifiers have been processed.
+
+Modifiers should generally display text about how they have modified the attack so that the player can understand
+how they affect gameplay. For example, Stone Armor should say something like, "STONE ARMOR reduced the attack by 1."
+
+Create a new Monster, the Stone Amarok, which has an initial HP of 4 but that has an innate attack modifier that reduces
+all damage taken by 1 (but not less than 0). The Stone Amarok should have an innate attack called Bite that
+deals 2 damage.
+
+Add a new battle in the middle of the sequence that includes three stone amaroks.
+
+## Damage Types
+
+Requires Attack Modifiers.
+
+All damage should be one of several types. Many attacks can use the attack type of Normal or another one of your choosing,
+but the Uncoded One's Deconstruct attack must use a special damage type called Decoding.
+
+Give the Player Character an innate modifier called Object Sight, which reduces decoding damage (and only decoding damage) by 2.
+
+## The Hand of the Uncoded One
+
+Requires Damage Types.
+
+This will stress test your design. In theory, you should be able to add this in without a lot of logic changes.
+
+Add in a new Monster type called the Hand of the Uncoded One. This is a mini-boss. Start it at 25 HP. Start it with a
+new item called the BINARY BLADE. It should deal 2 to 6 Coding type damage with the BITSLASH attack it provides when
+equipped. Also give the Hand of the Uncoded One an attack modifier called CORRUPTION that takes all outgoing damage
+and converts it from any type to the Decoding damage type. That is, while the Binary Blade naturally uses Coding type
+damage, when wielded by the Hand of the Uncoded One, it its Corruption modifier will cause it to become Uncoding damage.
+(Eventually, the Player Character will defeat the Hand of the Uncoded One and acquire the Binary Blade--the best
+weapon in the game, and ideal for taking on the Uncoded One.
+
+## Abilities
+
+Abilities are other things that can be used when picking an action. Abilities can come from lots of places, but for now,
+as we did initially with attacks and have done damage modifiers, it is sufficient to consider only abilities that are
+innate to the character.
+
+An ability can be run by request, as an action.
+
+Create a new Monster called a Skelomancer with 4 HP. Skelomancer has no innate attacks. It does have an innate ability
+called SUMMON which when used, puts a new Skeleton monster in its own party. This ability should only succeed 1/3 of
+the time.
+
+Change the Console Action Picker to have a new category: abilities. Allow the user to pick from one of the character's
+abilities, if they have any.
+
+Change the Default Attack Action Picker to prefer abilities over attacks if it has one that claims it can be used this
+turn.
+
+Insert a new level before the final battle with the Uncoded One to start off with a Skeleton and a Skelomancer. If
+you did the Dropped Loot challenge, also include in their inventory a few healing potions.
+
+## Making it Your Own (Repeatable)
+
+The instructions for these challenges have always been to adapt them to suit your interests and needs (without
+cheating yourself out of the experience). For this challenge--which you can do as often as you'd like--modify the game
+in a meaningful way of your own choice.
+
+Here are some ideas that you might consider (ideas I had considered for actual challenges but ended up not having
+time for), or invent something completely different:
+
+* Add in Simula as a Companion. Give her the ability (see the Abilities challenge) to make soup, which is a
+health-restoring item not as good as potions (maybe 3HP) but that is "craftable" via ability any time you want.
+* There's plenty of room for creating a wide variety of additional monsters and items.
+* Adding temporary effects. The ability to attach an effect to something--to provide an attack, an attack modifier,
+  or an ability for a certain amount of turns--would be a nice addition. Let the Uncoded One's Decoding attack
+  add an effect to the target that deals 1 point of damage over four, and can stack--after four attacks, it is
+  dealing four points of damage every turn.
+* Environment everything--environment attack damage modifiers (eliminate all fire damage underwater, for example),
+  environment attacks (let the room deal damage to all players--1 point of poison damage to everything per turn.
+* XP. As you defeat monsters, collect Experience Points for your troubles.
+* Generate random battles indefinitely.
+* Put level data in files so you can create new battles without having to modify the code.
+* Achievements--you get an achievement if you can get an Octopoid equipped with a Healing Potion and other such
+  things.
+* Give most things a color as well as the name they already have. Whenever they appear in text, display them
+  in their chosen color. PLAYER used BITSLASH and dealt 5 CODING damage to THE UNCODED ONE might color PLAYER in
+  green, BITSLASH in white, 5 CODING in red, and THE UNCODED ONE in dark dark gray.
+* Display a small indicator to tell you if a character is near death. A red [!] if the player is under 10% health
+  and a yellow [!] if the player is under 25%, for example.
+* Taunts. When a (non-human) character makes an attack, give them the a 25% chance of saying a 1-liner that
+  is appropriate to the character type. For example, the Uncoded One might say, "<<THE UNRAVELING OF ALL THINGS IS
+  INEVITABLE>>" while the skeleton says, "We will repel your spineless assault!"
+* Make it so that items can provide (offensive and defensive) attack modifiers. (A BINARIUM HELM item that
+  reduces damage by 1, or a RING OF LESS POWER that curses the holder by reducing their offensive attacks by 1.)
+* Make it so that items can provide abilities. A MIND CONTROL AMULET that when used gives a 10% chance of
+  the target changing to the user's side. (See if you can get that Hand of the Uncoded One to fight with you
+  against the Uncoded One!)
+* Make the levels generate randomly.
+* Let some characters have more than one action.
+* The ability of the console brain to remember the last attack it made for each character (using a
+  Dictionary<Character, IAction>, perhaps) to make it easy to rerun the last command. You will need to do 
+  something to ensure that the action is still legitimate. Equipment and other things can change over time.
+* Let characters use items on other characters (like an attack does), instead of just on themselves.
+* Abilities that can target a character or set of characters instead of just happening (like an attack does).
+* Items that are not consumed upon use or that have more than one use.
+
+## Bringing Balance
+
+The game should be winnable, but it should always be a fight--nothing is guaranteed. Depending on which challenges
+you chose, the game may have become extremely unbalanced in favor of either side. Adjust the parameters of the game
+without adjusting new logic and behavior to ensure that the game is challenging but not impossible.
