@@ -23,7 +23,9 @@ public class ConsolePlayer : IPlayer
 
         if (menuChoices[menuIndex].Enabled) return menuChoices[menuIndex].Action;
 
-        return new DoNothingAction(); // <-- This is actually fairly unforgiving. Typing in garbage or attempting to use a disabled option results in doing nothing. It would be better to try again. (Maybe that can be done as a Making It Your Own challenge.
+        return new DoNothingAction(); // <-- This is actually fairly unforgiving. Typing in garbage or attempting to use
+                                      //     a disabled option results in doing nothing. It would be better to try again.
+                                      //    (Maybe that can be done as a Making It Your Own challenge.)
     }
 
     private List<MenuChoice> CreateMenuOptions(Battle battle, Character character)
