@@ -70,3 +70,11 @@ public class Robot
         }
     }
 }
+
+// Answer this question: Do you feel this is an improvement over using an abstract base class? Why or why not?
+//
+// In this situation, I think this is better. For starters, there's less code to do the same thing. No need
+// to have those abstracts and overrides everywhere. But at a more substantial level, inheritance is a pretty
+// strong relationship, and these commands do not really need to have that strong of a relationship to each
+// other. The only thing that really binds them together is that they do the same type of thing. So I think
+// it is better for that reason.
