@@ -1,0 +1,25 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeInTheCavern", "TimeInTheCavern.csproj", "{FDBB95AC-E642-4A2E-8272-5B91D67C55E0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FDBB95AC-E642-4A2E-8272-5B91D67C55E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDBB95AC-E642-4A2E-8272-5B91D67C55E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDBB95AC-E642-4A2E-8272-5B91D67C55E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDBB95AC-E642-4A2E-8272-5B91D67C55E0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CD1025D1-2F84-4EBD-BA7A-3D9E1775E310}
+	EndGlobalSection
+EndGlobal
