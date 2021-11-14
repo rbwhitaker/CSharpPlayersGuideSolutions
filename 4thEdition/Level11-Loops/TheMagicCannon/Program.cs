@@ -1,4 +1,6 @@
-﻿for (int number = 1; number <= 100; number++)
+﻿using System;
+
+for (int number = 1; number <= 100; number++)
 {
     if (number % 5 == 0 && number % 3 == 0)
     {
