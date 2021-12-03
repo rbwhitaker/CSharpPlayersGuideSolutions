@@ -8,5 +8,5 @@ if (x < 0 && y == 0) Console.WriteLine("The enemy is to the west!");
 if (x == 0 && y == 0) Console.WriteLine("The enemy is here!");
 if (x > 0 && y == 0) Console.WriteLine("The enemy is to the east!");
 if (x < 0 && y < 0) Console.WriteLine("The enemy is to the south west!");
-if (x == 0 && y < 0) Console.WriteLine("The enemy is to the south west!");
-if (x > 0 && y < 0) Console.WriteLine("The enemy is to the south west!");
+if (x == 0 && y < 0) Console.WriteLine("The enemy is to the south!");
+if (x > 0 && y < 0) Console.WriteLine("The enemy is to the south east!");
