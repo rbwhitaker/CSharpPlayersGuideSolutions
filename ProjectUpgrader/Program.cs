@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-string directory = @"C:\Users\RB\Documents\Books\The C# Player's Guide\Solutions\5thEdition\";
+string directory = @"C:\Users\RB\Documents\Books\The C# Player's Guide\Solutions\6thEdition\";
 
 foreach (var solutionFile in Directory.EnumerateFiles(directory, "*.sln", SearchOption.AllDirectories))
     File.WriteAllLines(solutionFile, UpgradeSolutionFileText(solutionFile, File.ReadAllLines(solutionFile)));
@@ -16,14 +16,14 @@ string[] UpgradeSolutionFileText(string file, string[] lines)
     for (int index = 0; index < lines.Length; index++)
     {
         string line = lines[index];
-        if (line == "# Visual Studio Version 16")
+        if (line == "# Visual Studio Version 17")
         {
             lines[index] = "# Visual Studio Version 17";
             foundComment = true;
         }
         if (line.StartsWith("VisualStudioVersion"))
         {
-            lines[index] = "VisualStudioVersion = 17.0.31903.59";
+            lines[index] = "VisualStudioVersion = 17.12.35707.178 d17.12";
             foundVersion = true;
         }
     }
@@ -40,11 +40,9 @@ string[] UpgradeProjectFileText(string[] lines)
     for (int index = 0; index < lines.Length; index++)
     {
         string line = lines[index];
-        if (line == "    <TargetFramework>net5.0</TargetFramework>")
+        if (line == "    <TargetFramework>net6.0</TargetFramework>")
         {
-            lines[index] = "    <TargetFramework>net6.0</TargetFramework>\r\n" +
-                           "    <ImplicitUsings>enable</ImplicitUsings>\r\n" +
-                           "    <Nullable>enable</Nullable>";
+            lines[index] = "    <TargetFramework>net9.0</TargetFramework>";
             foundFrameworkVersion = true;
         }
     }
