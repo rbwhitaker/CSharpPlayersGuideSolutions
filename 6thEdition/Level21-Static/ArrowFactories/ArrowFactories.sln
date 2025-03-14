@@ -1,0 +1,25 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrowFactories", "ArrowFactories.csproj", "{FBF49E60-9A7B-4AF7-B3A7-4603135F2DA1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FBF49E60-9A7B-4AF7-B3A7-4603135F2DA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBF49E60-9A7B-4AF7-B3A7-4603135F2DA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBF49E60-9A7B-4AF7-B3A7-4603135F2DA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBF49E60-9A7B-4AF7-B3A7-4603135F2DA1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EE90B335-6DBF-42E7-8736-7EFB856FDD43}
+	EndGlobalSection
+EndGlobal

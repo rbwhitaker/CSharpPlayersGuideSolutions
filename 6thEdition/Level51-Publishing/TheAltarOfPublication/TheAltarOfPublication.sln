@@ -1,0 +1,25 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheAltarOfPublication", "TheAltarOfPublication.csproj", "{EF78C879-FE59-4710-BFFA-11D2BD35E413}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EF78C879-FE59-4710-BFFA-11D2BD35E413}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF78C879-FE59-4710-BFFA-11D2BD35E413}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF78C879-FE59-4710-BFFA-11D2BD35E413}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF78C879-FE59-4710-BFFA-11D2BD35E413}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {80DC1CB4-AEB2-4425-8251-40EA8E68814F}
+	EndGlobalSection
+EndGlobal
