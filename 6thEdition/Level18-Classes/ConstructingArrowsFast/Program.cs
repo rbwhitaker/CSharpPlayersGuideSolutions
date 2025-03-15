@@ -1,16 +1,23 @@
-﻿Arrow arrow = new Arrow();
+﻿Arrow practiceArrow = new Arrow(ArrowheadType.Wood, FletchingType.GooseFeathers, 75);
+Arrow marksmanArrow = new Arrow(ArrowheadType.Steel, FletchingType.GooseFeathers, 65);
+Arrow eliteArrow = new Arrow(ArrowheadType.Steel, FletchingType.Plastic, 95);
 
-arrow.Length = 75;
-arrow.FletchingType = FletchingType.TurkeyFeathers;
-arrow.ArrowheadType = ArrowheadType.Steel;
-
-Console.WriteLine(arrow.GetCost());
+Console.WriteLine("Practice: " + practiceArrow.GetCost());
+Console.WriteLine("Marksman: " + marksmanArrow.GetCost());
+Console.WriteLine("Elite:    " + eliteArrow.GetCost());
 
 public class Arrow
 {
     public ArrowheadType ArrowheadType;
     public FletchingType FletchingType;
     public float Length;
+
+    public Arrow(ArrowheadType arrowheadType, FletchingType fletchingType, float length)
+    {
+        ArrowheadType = arrowheadType;
+        FletchingType = fletchingType;
+        Length = length;
+    }
 
     public float GetCost()
     {
