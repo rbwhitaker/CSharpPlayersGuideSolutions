@@ -1,5 +1,5 @@
-﻿Color[] colors = new Color[] { Color.Red, Color.Green, Color.Blue, Color.Yellow };
-Rank[] ranks= new Rank[] { Rank.One, Rank.Two, Rank.Three, Rank.Four, Rank.Five, Rank.Six, Rank.Seven, Rank.Eight, Rank.Nine, Rank.Ten, Rank.DollarSign, Rank.Percent, Rank.Caret, Rank.Ampersand };
+﻿Color[] colors = [Color.Red, Color.Green, Color.Blue, Color.Yellow];
+Rank[] ranks= [Rank.One, Rank.Two, Rank.Three, Rank.Four, Rank.Five, Rank.Six, Rank.Seven, Rank.Eight, Rank.Nine, Rank.Ten, Rank.DollarSign, Rank.Percent, Rank.Caret, Rank.Ampersand];
 
 foreach (Color color in colors)
 {

@@ -21,11 +21,9 @@ bool IsEven(int number) => number % 2 == 0;
 bool IsPositive(int number) => number > 0;
 bool IsMultipleOfTen(int number) => number % 10 == 0;
 
-public class Sieve
+public class Sieve(Func<int, bool> decisionFunction)
 {
-    private Func<int, bool> _decisionFunction;
-
-    public Sieve(Func<int, bool> decisionFunction) => _decisionFunction = decisionFunction;
+    private readonly Func<int, bool> _decisionFunction = decisionFunction;
 
     public bool IsGood(int number)
     {

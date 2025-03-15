@@ -50,12 +50,7 @@ public class FountainOfObjectsGame
         Monsters = monsters;
 
         // Each of these senses will be used during the game. Add new senses here.
-        _senses = new ISense[]
-        {
-            new LightInEntranceSense(),
-            new FountainSense(),
-            new PitBreezeSense()
-        };
+        _senses = [new LightInEntranceSense(), new FountainSense(), new PitBreezeSense()];
     }
 
     // Runs the game one turn at a time.

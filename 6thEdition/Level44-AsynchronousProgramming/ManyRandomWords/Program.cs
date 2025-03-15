@@ -18,7 +18,7 @@ int RandomlyRecreate(string? word)
 {
     if (word == null) return 0;
 
-    Random random = new Random();
+    Random random = new ();
 
     string generated;
     int attempts = 0;

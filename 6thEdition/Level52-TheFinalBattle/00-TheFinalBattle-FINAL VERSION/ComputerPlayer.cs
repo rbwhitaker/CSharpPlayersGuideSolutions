@@ -3,7 +3,7 @@
 /// </summary>
 public class ComputerPlayer : IPlayer
 {
-    private static Random _random = new Random();
+    private static readonly Random _random = new ();
 
     public IAction ChooseAction(Battle battle, Character character)
     {

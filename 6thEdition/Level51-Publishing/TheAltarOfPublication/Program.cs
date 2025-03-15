@@ -63,12 +63,12 @@ FountainOfObjectsGame CreateMediumGame()
     map.SetRoomTypeAtLocation(new Location(3, 0), RoomType.Pit);
     map.SetRoomTypeAtLocation(new Location(0, 2), RoomType.Pit);
 
-    Monster[] monsters = new Monster[]
-    {
+    Monster[] monsters = [
+    
         new Maelstrom(new Location(2, 2)),
         new Amarok(new Location(5, 3)),
         new Amarok(new Location(1, 0))
-    };
+    ];
 
     return new FountainOfObjectsGame(map, new Player(start), monsters);
 }
@@ -85,14 +85,14 @@ FountainOfObjectsGame CreateLargeGame()
     map.SetRoomTypeAtLocation(new Location(3, 2), RoomType.Pit);
     map.SetRoomTypeAtLocation(new Location(0, 5), RoomType.Pit);
 
-    Monster[] monsters = new Monster[]
-    {
-        new Maelstrom(new Location(1, 3)),
-        new Maelstrom(new Location(5, 5)),
-        new Amarok(new Location(7, 5)),
-        new Amarok(new Location(5, 2)),
-        new Amarok(new Location(1, 1))
-    };
+    Monster[] monsters =
+        [
+            new Maelstrom(new Location(1, 3)),
+            new Maelstrom(new Location(5, 5)),
+            new Amarok(new Location(7, 5)),
+            new Amarok(new Location(5, 2)),
+            new Amarok(new Location(1, 1))
+        ];
 
     return new FountainOfObjectsGame(map, new Player(start), monsters);
 }
@@ -128,14 +128,14 @@ public class FountainOfObjectsGame
         Monsters = monsters;
 
         // Each of these senses will be used during the game. Add new senses here.
-        _senses = new ISense[]
-        {
-            new LightInEntranceSense(),
-            new FountainSense(),
-            new PitBreezeSense(),
-            new MaelstromSense(),
-            new AmarokSense()
-        };
+        _senses = 
+            [
+                new LightInEntranceSense(),
+                new FountainSense(),
+                new PitBreezeSense(),
+                new MaelstromSense(),
+                new AmarokSense()
+            ];
     }
 
     // Runs the game one turn at a time.

@@ -17,11 +17,9 @@ while (true)
     Console.WriteLine($"That number is {goodOrEvil}.");
 }
 
-public class Sieve // This is just a wrapper around a `Func<int, bool>` variable. We could have used just that instead in this specific situation.
+public class Sieve(Func<int, bool> decisionFunction) // This is just a wrapper around a `Func<int, bool>` variable. We could have used just that instead in this specific situation.
 {
-    private Func<int, bool> _decisionFunction;
-
-    public Sieve(Func<int, bool> decisionFunction) => _decisionFunction = decisionFunction;
+    private readonly Func<int, bool> _decisionFunction = decisionFunction;
 
     public bool IsGood(int number)
     {

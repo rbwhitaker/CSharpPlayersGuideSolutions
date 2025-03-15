@@ -20,7 +20,7 @@ public class ConsolePlayer : IPlayer
 
         if (menuChoices[menuIndex].Enabled) return menuChoices[menuIndex].Action!; // Checking if it is enabled is as good as a null check.
 
-        return new DoNothingAction(); // <-- This is actually fairly unforgiving. Typing in garbage or attempting to use a disabled option results in doing nothing. It would be better to try again. (Maybe that can be done as a Making It Your Own challenge.
+        return new DoNothingAction(); // <-- This is fairly unforgiving. Typing in garbage or attempting to use a disabled option results in doing nothing. It would be better to try again. (Maybe that can be done as a Making It Your Own challenge).
     }
 
     private List<MenuChoice> CreateMenuOptions(Battle battle, Character character)
@@ -28,7 +28,7 @@ public class ConsolePlayer : IPlayer
         Party currentParty = battle.GetPartyFor(character);
         Party otherParty = battle.GetEnemyPartyFor(character);
 
-        List<MenuChoice> menuChoices = new List<MenuChoice>();
+        List<MenuChoice> menuChoices = [];
 
         // Add the standard attack as an option.
         if (otherParty.Characters.Count > 0)

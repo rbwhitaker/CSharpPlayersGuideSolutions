@@ -1,11 +1,9 @@
 ﻿/// <summary>
 /// The main hero and player character of the game.
 /// </summary>
-public class TheTrueProgrammer : Character
+public class TheTrueProgrammer(string name) : Character(25)
 {
-    public override string Name { get; }
-
-    public TheTrueProgrammer(string name) : base(25) => Name = name;
+    public override string Name { get; } = name;
     public override IAttack StandardAttack { get; } = new Punch();
 }
 

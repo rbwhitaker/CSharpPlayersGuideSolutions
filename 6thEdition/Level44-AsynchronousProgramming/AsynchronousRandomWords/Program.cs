@@ -11,7 +11,7 @@ int RandomlyRecreate(string? word)
 {
     if (word == null) return 0;
 
-    Random random = new Random();
+    Random random = new ();
 
     string generated;
     int attempts = 0;
@@ -21,7 +21,8 @@ int RandomlyRecreate(string? word)
         generated = "";
         for (int letter = 0; letter < word.Length; letter++)
             generated += (char)('a' + random.Next(26));
-    } while (generated != word);
+    }
+    while (generated != word);
 
     return attempts;
 }

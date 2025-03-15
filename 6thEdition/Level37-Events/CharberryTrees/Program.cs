@@ -1,7 +1,7 @@
-﻿CharberryTree tree = new CharberryTree();
+﻿CharberryTree tree = new ();
 
-Notifier announcer = new Notifier(tree);
-Harvester harvester = new Harvester(tree);
+Notifier announcer = new (tree);
+Harvester harvester = new (tree);
 
 while (true)
     tree.MaybeGrow();
@@ -10,7 +10,8 @@ while (true)
 public class Harvester
 {
     private int _harvestCount;
-    private CharberryTree _tree;
+    private readonly CharberryTree _tree;
+
     public Harvester(CharberryTree tree)
     {
         _tree = tree;
@@ -37,7 +38,7 @@ public class Notifier
 
 public class CharberryTree
 {
-    private Random _random = new Random();
+    private readonly Random _random = new ();
     public bool Ripe { get; set; }
     public event Action? Ripened;
 

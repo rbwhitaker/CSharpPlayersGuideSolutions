@@ -1,22 +1,16 @@
 ﻿/// <summary>
 /// An action type that executes an attack on a target.
 /// </summary>
-public class AttackAction : IAction
+/// <remarks>
+/// Creates a new attack action, capturing the attack and target of the attack.
+/// </remarks>
+public class AttackAction(IAttack attack, Character target) : IAction
 {
     // The attack to run.
-    private readonly IAttack _attack;
+    private readonly IAttack _attack = attack;
 
     // The target of the attack.
-    private readonly Character _target;
-
-    /// <summary>
-    /// Creates a new attack action, capturing the attack and target of the attack.
-    /// </summary>
-    public AttackAction(IAttack attack, Character target)
-    {
-        _attack = attack;
-        _target = target;
-    }
+    private readonly Character _target = target;
 
     /// <summary>
     /// Runs the attack action.

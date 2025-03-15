@@ -11,11 +11,15 @@ game.Run();
 void DisplayIntro()
 {
     Console.ForegroundColor = ConsoleColor.White;
-    Console.WriteLine("You enter the Cavern of Objects, a maze filled with dangerous pits, in search");
-    Console.WriteLine("of the Fountain of Objects.");
-    Console.WriteLine("Light is visible only in the entrance, and no other light is seen anywhere in the caverns.");
-    Console.WriteLine("You must navigate the Caverns with your other senses.");
-    Console.WriteLine("Find the Fountain of Objects, activate it, and return to the entrance.");
+    Console.WriteLine("""
+        You enter the Cavern of Objects, a maze filled with dangerous pits, in search
+        of the Fountain of Objects.
+
+        Light is visible only in the entrance, and no other light is seen anywhere in the caverns.
+        You must navigate the Caverns with your other senses.
+
+        Find the Fountain of Objects, activate it, and return to the entrance.
+        """);
 }
 
 // Creates a small 4x4 game.
@@ -242,18 +246,21 @@ public class HelpCommand : ICommand
 {
     public void Execute(FountainOfObjectsGame game)
     {
-        ConsoleHelper.WriteLine("help", ConsoleColor.Gray);
-        ConsoleHelper.WriteLine("    Displays this help information.", ConsoleColor.Gray);
-        ConsoleHelper.WriteLine("enable fountain", ConsoleColor.Gray);
-        ConsoleHelper.WriteLine("    Turns on the Fountain of Objects if you are in the fountain room, or does nothing if you are not.", ConsoleColor.Gray);
-        ConsoleHelper.WriteLine("move north", ConsoleColor.Gray);
-        ConsoleHelper.WriteLine("    Moves to the room directly north of the current room, as long as there are no walls.", ConsoleColor.Gray);
-        ConsoleHelper.WriteLine("move south", ConsoleColor.Gray);
-        ConsoleHelper.WriteLine("    Moves to the room directly south of the current room, as long as there are no walls.", ConsoleColor.Gray);
-        ConsoleHelper.WriteLine("move east", ConsoleColor.Gray);
-        ConsoleHelper.WriteLine("    Moves to the room directly east of the current room, as long as there are no walls.", ConsoleColor.Gray);
-        ConsoleHelper.WriteLine("move west", ConsoleColor.Gray);
-        ConsoleHelper.WriteLine("    Moves to the room directly west of the current room, as long as there are no walls.", ConsoleColor.Gray);
+        ConsoleHelper.WriteLine("""
+                   help
+                       Displays this help information.
+                   enable fountain
+                       Turns on the Fountain of Objects if you are in the fountain room, or does
+                       nothing if you are not.
+                   move north
+                       Moves to the room directly north of the current room, as long as there are no walls.
+                   move south
+                       Moves to the room directly south of the current room, as long as there are no walls.
+                   move east
+                       Moves to the room directly east of the current room, as long as there are no walls.
+                   move west
+                       Moves to the room directly west of the current room, as long as there are no walls.
+                   """, ConsoleColor.Gray);
     }
 }
 

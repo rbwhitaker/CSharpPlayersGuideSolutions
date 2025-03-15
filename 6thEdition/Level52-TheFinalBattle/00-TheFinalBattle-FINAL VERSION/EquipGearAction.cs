@@ -1,8 +1,6 @@
-﻿public class EquipGearAction : IAction
+﻿public class EquipGearAction(IGear gear) : IAction
 {
-    private readonly IGear _gear;
-
-    public EquipGearAction(IGear gear) => _gear = gear;
+    private readonly IGear _gear = gear;
 
     public void Run(Battle battle, Character actor)
     {

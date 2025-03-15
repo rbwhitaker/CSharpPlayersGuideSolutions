@@ -23,7 +23,7 @@ FountainOfObjectsGame CreateSmallGame()
     map.SetRoomTypeAtLocation(start, RoomType.Entrance);
     map.SetRoomTypeAtLocation(new Location(1, 2), RoomType.Fountain);
 
-    Monster[] monsters = new Monster[] { };
+    Monster[] monsters = [];
 
     return new FountainOfObjectsGame(map, new Player(start), monsters);
 }

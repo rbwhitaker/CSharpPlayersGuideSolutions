@@ -1,4 +1,4 @@
-﻿RecentNumbers recentNumbers = new RecentNumbers { MostRecent = -1, SecondMostRecent = -2 };
+﻿RecentNumbers recentNumbers = new RecentNumbers();
 Thread generatingThread = new Thread(GenerateNumbers);
 generatingThread.Start(recentNumbers);
 
@@ -6,29 +6,23 @@ while (true)
 {
     Console.ReadKey(false);
 
-    bool isDuplicate;
-    lock(recentNumbers)
-        isDuplicate = recentNumbers.MostRecent == recentNumbers.SecondMostRecent;
+    bool isDuplicate = recentNumbers.IsDuplicate();
     
-    if(isDuplicate) Console.WriteLine("You found a duplicate!");
+    if (isDuplicate) Console.WriteLine("You found a duplicate!");
     else Console.WriteLine("That is not a duplicate.");
 }
 
 void GenerateNumbers(object? o)
 {
-    if (o == null || o is not RecentNumbers) return; // Shouldn't ever happen, but worth checking anyway.
+    if (o is not RecentNumbers recentNumbers) return; // Shouldn't ever happen, but worth checking anyway.
 
-    RecentNumbers recentNumbers = (RecentNumbers)o;
-    Random random = new Random();
+    Random random = new ();
+
     while (true)
     {
         int nextNumber = random.Next(10);
 
-        lock (recentNumbers)
-        {
-            recentNumbers.SecondMostRecent = recentNumbers.MostRecent;
-            recentNumbers.MostRecent = nextNumber;
-        }
+        recentNumbers.AddNextNumber(nextNumber);
 
         Console.WriteLine(nextNumber);
         Thread.Sleep(1000);
@@ -37,6 +31,24 @@ void GenerateNumbers(object? o)
 
 public class RecentNumbers
 {
-    public int MostRecent { get; set; }
-    public int SecondMostRecent { get; set; }
+    private int _current = -1;  // Initialize these two fields to two numbers
+    private int _previous = -2; // that aren't equal. Doesn't matter what.
+    private readonly Lock _lock = new();
+
+    public bool IsDuplicate()
+    {
+        lock (_lock)
+        {
+            return _current == _previous;
+        }
+    }
+
+    public void AddNextNumber(int nextNumber)
+    {
+        lock (_lock)
+        {
+            _previous = _current;
+            _current = nextNumber;
+        }
+    }
 }

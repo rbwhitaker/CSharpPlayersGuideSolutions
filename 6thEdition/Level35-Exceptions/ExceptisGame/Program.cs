@@ -1,7 +1,7 @@
 ﻿try
 {
     int targetNumber = new Random().Next(10);
-    List<int> previousGuesses = new List<int>();
+    List<int> previousGuesses = [];
 
     while (true)
     {
@@ -13,7 +13,8 @@
             number = Convert.ToInt32(Console.ReadLine());
             previouslyGuessed = previousGuesses.Contains(number);
             if (previouslyGuessed) Console.WriteLine("That number has been guessed before.");
-        } while (previouslyGuessed);
+        }
+        while (previouslyGuessed);
 
         if (number == targetNumber) throw new Exception();
 
